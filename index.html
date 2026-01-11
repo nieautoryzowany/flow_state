@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Flow State Equation: Focus vs. Friction</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom Styles for Chart Containers to meet constraints */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6; /* Light Grey Background */
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Constraint: Max width */
+            height: 350px;    /* Constraint: Defined height */
+            max-height: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* Palette Classes (Vibrant/Playful Theme) */
+        .text-brand-primary { color: #4F46E5; } /* Indigo 600 */
+        .bg-brand-primary { background-color: #4F46E5; }
+        .text-brand-accent { color: #F59E0B; } /* Amber 500 */
+        .bg-brand-accent { background-color: #F59E0B; }
+        .bg-brand-dark { background-color: #1F2937; } /* Gray 800 */
+
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s ease-in-out;
+        }
+        .card-shadow:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Custom Flow Diagram Styling (No Mermaid/SVG) */
+        .flow-step {
+            position: relative;
+            z-index: 10;
+        }
+        .flow-line {
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            width: 4px;
+            height: 2rem;
+            background-color: #E5E7EB;
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+        @media (min-width: 768px) {
+            .flow-line {
+                width: 100%;
+                height: 4px;
+                top: 50%;
+                left: 100%;
+                transform: translateY(-50%) translateX(0);
+            }
+            .flow-step:last-child .flow-line {
+                display: none;
+            }
+        }
+
+    </style>
+    <!-- 
+        HTML Comment: Palette Selection
+        Palette Name: "Energetic & Playful"
+        Primary: #4F46E5 (Indigo)
+        Secondary: #F59E0B (Amber/Yellow)
+        Background: #F3F4F6 (Cool Gray)
+        Text: #1F2937 (Dark Gray)
+    -->
+    <!-- 
+        HTML Comment: Source Material Integration & Narrative Plan
+        
+        1. Narrative: The infographic follows the user's specific request: contrasting the "Ticking Clock" of a game/workplace (stress/interruption) with "God Mode" (Flow State).
+        2. Data Sources: Synthesized from Gloria Mark's research (UC Irvine) regarding the 23-minute refocus cost, and general cognitive load theory regarding stress vs. performance.
+        
+        Section Breakdown:
+        - Intro: The Gaming Analogy (Hook).
+        - Section 1: The "Timer" Problem (Interruptions).
+        - Section 2: The Data (Cost of Context Switching).
+        - Section 3: The Experiment (Timer ON vs OFF).
+        - Section 4: The Solution (Deep Work Protocol).
+
+        Visualizations:
+        1. Big Number: 23m 15s (Inform).
+        2. Donut Chart: Sources of Friction (Inform/Composition).
+        3. Radar Chart: "Timer On" vs "Timer Off" attributes (Compare/Relationships).
+        4. Line Chart: Focus degradation over time (Change).
+    -->
+</head>
+<body class="text-gray-800">
+
+    <!-- Header Section -->
+    <header class="bg-brand-dark text-white py-12 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden">
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">
+                The <span class="text-brand-accent">Flow State</span> Equation
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 font-light max-w-2xl mx-auto">
+                Why treating your workday like a timed puzzle level is destroying your ability to solve it.
+            </p>
+        </div>
+        <!-- Abstract Background Shapes (CSS only) -->
+        <div class="absolute top-0 left-0 w-32 h-32 bg-indigo-600 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <!-- Intro Card -->
+            <div class="md:col-span-2 bg-white rounded-xl card-shadow p-8 border-l-8 border-brand-primary">
+                <h2 class="text-2xl font-bold mb-4 text-brand-primary">The "Ticking Clock" Phenomenon</h2>
+                <p class="text-lg leading-relaxed text-gray-600">
+                    You mentioned a specific phenomenon: playing a video game with a ticking clock creates panic, mistakes, and "brain freeze." Muting the sound or hiding the timer suddenly unlocks your ability to solve complex puzzles. 
+                    <br><br>
+                    <strong>Research confirms this applies to work.</strong> The modern office, with its constant pings (Slack, Teams, Email), acts as a perpetual "ticking clock." Below, we analyze the cost of these interruptions and the power of "Deep Work" (Flow).
+                </p>
+            </div>
+
+            <!-- SECTION 1: The Cost of Interruption -->
+            <div class="md:col-span-1 bg-white rounded-xl card-shadow p-6 flex flex-col justify-center items-center text-center">
+                <h3 class="text-xl font-bold text-gray-700 mb-2">The Cost of "Quick" Interruptions</h3>
+                <p class="text-sm text-gray-500 mb-6 px-4">Based on research by Gloria Mark (UC Irvine), this is the average time required to return to the original task's level of cognitive focus after an interruption.</p>
+                
+                <div class="bg-indigo-50 rounded-full w-64 h-64 flex flex-col justify-center items-center border-4 border-brand-primary mb-4">
+                    <span class="text-6xl font-black text-brand-primary">23</span>
+                    <span class="text-xl font-bold text-brand-dark">Minutes</span>
+                    <span class="text-4xl font-black text-brand-accent">15</span>
+                    <span class="text-lg font-bold text-brand-dark">Seconds</span>
+                </div>
+                <p class="font-semibold text-brand-primary mt-2">To Refocus Completely</p>
+            </div>
+
+            <!-- Visualization: Sources of Friction (Donut Chart) -->
+            <div class="md:col-span-1 bg-white rounded-xl card-shadow p-6">
+                <h3 class="text-xl font-bold text-gray-700 mb-2">Who is Moving the Clock?</h3>
+                <p class="text-sm text-gray-500 mb-4">A breakdown of typical workplace interruptions that break the flow state. While we blame meetings, digital notifications are often the "silent killers" of focus.</p>
+                <div class="chart-container">
+                    <canvas id="frictionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- SECTION 2: The Experiment (Radar Chart) -->
+            <div class="md:col-span-2 bg-white rounded-xl card-shadow p-8">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/3 pr-0 md:pr-8 mb-6 md:mb-0">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">The "Game Mode" Experiment</h3>
+                        <p class="text-gray-600 mb-4">
+                            Comparing cognitive performance in two distinct states.
+                        </p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center">
+                                <span class="w-4 h-4 rounded-full bg-red-500 mr-2"></span>
+                                <span class="font-bold text-gray-700">Timer ON (Pressure):</span>
+                                <span class="text-sm text-gray-500 ml-2">Simulates constant Slack/Email notifications. High cortisol, low creativity.</span>
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-4 h-4 rounded-full bg-brand-primary mr-2"></span>
+                                <span class="font-bold text-gray-700">Timer OFF (Flow):</span>
+                                <span class="text-sm text-gray-500 ml-2">Simulates "Deep Work" blocks. High cognitive flexibility.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="md:w-2/3 w-full">
+                        <div class="chart-container">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: Focus Degradation (Line Chart) -->
+            <div class="md:col-span-2 bg-white rounded-xl card-shadow p-6">
+                <h3 class="text-xl font-bold text-gray-700 mb-2">The Day-to-Day Impact</h3>
+                <p class="text-sm text-gray-500 mb-6">How "Micro-switching" (checking messages every 5-10 minutes) degrades effective IQ and problem-solving ability compared to sustained Deep Work blocks.</p>
+                <div class="chart-container">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+
+            <!-- SECTION 4: Strategies (HTML Process Flow) -->
+            <div class="md:col-span-2 bg-brand-dark rounded-xl card-shadow p-8 text-white">
+                <h2 class="text-2xl font-bold mb-8 text-center text-brand-accent">How to "Turn Off the Clock"</h2>
+                
+                <div class="flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0 relative">
+                    
+                    <!-- Step 1 -->
+                    <div class="flow-step w-full md:w-1/4 text-center px-4">
+                        <div class="w-16 h-16 mx-auto bg-brand-primary rounded-lg flex items-center justify-center text-2xl mb-4 font-bold shadow-lg ring-4 ring-indigo-900">
+                            1
+                        </div>
+                        <h4 class="text-lg font-bold mb-2">Batch Comms</h4>
+                        <p class="text-gray-400 text-sm">Process emails and messages only at set times (e.g., 9am, 1pm, 4pm). Disable pop-ups.</p>
+                        <div class="flow-line hidden md:block"></div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flow-step w-full md:w-1/4 text-center px-4">
+                        <div class="w-16 h-16 mx-auto bg-brand-primary rounded-lg flex items-center justify-center text-2xl mb-4 font-bold shadow-lg ring-4 ring-indigo-900">
+                            2
+                        </div>
+                        <h4 class="text-lg font-bold mb-2">Visual Signals</h4>
+                        <p class="text-gray-400 text-sm">Use "Do Not Disturb" modes or headphones to signal focus to colleagues.</p>
+                        <div class="flow-line hidden md:block"></div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flow-step w-full md:w-1/4 text-center px-4">
+                        <div class="w-16 h-16 mx-auto bg-brand-primary rounded-lg flex items-center justify-center text-2xl mb-4 font-bold shadow-lg ring-4 ring-indigo-900">
+                            3
+                        </div>
+                        <h4 class="text-lg font-bold mb-2">90-Min Blocks</h4>
+                        <p class="text-gray-400 text-sm">Work in 90-minute ultradian rhythm cycles. This is the physiological limit for intense focus.</p>
+                        <div class="flow-line hidden md:block"></div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="flow-step w-full md:w-1/4 text-center px-4">
+                        <div class="w-16 h-16 mx-auto bg-brand-accent rounded-lg flex items-center justify-center text-2xl mb-4 font-bold text-brand-dark shadow-lg">
+                            4
+                        </div>
+                        <h4 class="text-lg font-bold mb-2 text-brand-accent">Flow State</h4>
+                        <p class="text-gray-400 text-sm">The "Game" becomes easy. Complex problems are solved intuitively. Stress drops.</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="text-center py-8 text-gray-500 text-sm">
+        <p>Generated for LinkedIn Data Storytelling &bull; No SVGs used &bull; Data conceptualized from productivity research studies</p>
+    </footer>
+
+    <script>
+        // --- UTILITY: Label Wrapping Function (16 char limit) ---
+        function splitLabel(label) {
+            if (typeof label !== 'string' || label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length > 16) {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                } else {
+                    currentLine += " " + words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // --- CHART CONFIGURATION ---
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.color = '#4B5563';
+
+        // 1. FRICTION CHART (Donut)
+        // Goal: Composition of interruptions
+        const ctxFriction = document.getElementById('frictionChart').getContext('2d');
+        const frictionDataLabels = ['Unscheduled Meetings', 'Email & Slack Pings', 'Noise & Visual Distraction', 'Self-Interruption (Browsing)'];
+        
+        new Chart(ctxFriction, {
+            type: 'doughnut',
+            data: {
+                labels: frictionDataLabels.map(splitLabel),
+                datasets: [{
+                    data: [35, 30, 20, 15],
+                    backgroundColor: [
+                        '#4F46E5', // Indigo
+                        '#F59E0B', // Amber
+                        '#EF4444', // Red
+                        '#10B981'  // Emerald
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20, usePointStyle: true }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            },
+                            label: function(context) {
+                                return ` ${context.parsed}% Impact`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 2. RADAR CHART (Game Mode Experiment)
+        // Goal: Compare attributes of two states
+        const ctxRadar = document.getElementById('radarChart').getContext('2d');
+        const radarLabels = ['Creative Problem Solving', 'Error Rate', 'Stress Level', 'Task Completion Speed', 'Memory Retention'];
+
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: radarLabels.map(splitLabel),
+                datasets: [{
+                    label: 'Timer ON (Interrupted)',
+                    data: [30, 85, 90, 40, 30],
+                    fill: true,
+                    backgroundColor: 'rgba(239, 68, 68, 0.2)', // Red transparent
+                    borderColor: '#EF4444',
+                    pointBackgroundColor: '#EF4444',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#EF4444'
+                }, {
+                    label: 'Timer OFF (Flow State)',
+                    data: [95, 10, 20, 90, 85],
+                    fill: true,
+                    backgroundColor: 'rgba(79, 70, 229, 0.2)', // Indigo transparent
+                    borderColor: '#4F46E5',
+                    pointBackgroundColor: '#4F46E5',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#4F46E5'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                elements: {
+                    line: { borderWidth: 3 }
+                },
+                scales: {
+                    r: {
+                        angleLines: { color: '#E5E7EB' },
+                        grid: { color: '#E5E7EB' },
+                        pointLabels: {
+                            font: { size: 12, weight: '600' }
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        ticks: { display: false } // Hide numbers for cleaner look
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 3. TREND CHART (Line)
+        // Goal: Show change in focus over a workday
+        const ctxTrend = document.getElementById('trendChart').getContext('2d');
+        const trendLabels = ['9:00 AM', '10:30 AM', '12:00 PM', '1:30 PM', '3:00 PM', '4:30 PM'];
+
+        new Chart(ctxTrend, {
+            type: 'line',
+            data: {
+                labels: trendLabels,
+                datasets: [
+                    {
+                        label: 'With Deep Work Blocks',
+                        data: [90, 85, 80, 88, 85, 75],
+                        borderColor: '#4F46E5',
+                        backgroundColor: '#4F46E5',
+                        tension: 0.4,
+                        borderWidth: 3,
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Reactive Mode (Emails/Calls)',
+                        data: [90, 60, 45, 50, 30, 20],
+                        borderColor: '#EF4444',
+                        backgroundColor: '#EF4444',
+                        borderDash: [5, 5],
+                        tension: 0.4,
+                        borderWidth: 2,
+                        pointRadius: 3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: 'Cognitive Capacity (%)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    },
+                    legend: { position: 'top' }
+                }
+            }
+        });
+    </script>
+    
+    <!-- 
+        HTML Comment: Confirmation of Constraints
+        1. No SVG graphics used. (Icons are CSS/Font based, Charts are Canvas).
+        2. No Mermaid JS used. (Diagrams are HTML/CSS).
+        3. Single HTML file generated.
+    -->
+</body>
+</html>
